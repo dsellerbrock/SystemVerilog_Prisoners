@@ -1,56 +1,55 @@
 `timescale 1ns/1ns
 `include "boxes.sv"
 
-module prisoner_box_tb;
+module boxes_tb;
 
 //inputs
 reg clk;
-reg rd_enable;
-reg rst;
-reg load;
+reg [2:0] state_reg;
 reg [7:0] input_data;
 reg [31:0] guard_key;
 //outputs
 wire [7:0] output_data;
 
 
-prisoner_box uut(output_data, input_data, guard_key, load, clk, rst, rd_enable);
+prisoner_box uut(output_data, state_reg, input_data, guard_key, clk);
 
 initial begin
     clk=0;
-    rst=0;
-    rd_enable=0;
-    load=0;
+    state_reg = 3'b000;
 end
 
 always #5 clk=~clk;
+
 initial #60  $finish; 
+
 initial begin
-    $dumpfile("prisoner_boxes.vcd");
-    $dumpvars(0,prisoner_box_tb);
-    #10
+    $dumpfile("boxes_tb.vcd");
+    $dumpvars(0,boxes_tb);
     
-    rd_enable = 0;
-    load = 1;
+	#10   
+    state_reg = 3'b001;
     guard_key = 32'hDEADBEEF;
     input_data = 8'hAB;
-    #10
-
-    guard_key = 32'h00000000;
-    input_data = 8'h00;
-    load = 0;
-    rd_enable = 1;
-    #10
-
-    rd_enable=0;
-    rst=1;
+    
+	#10
+    state_reg = 3'b100;
+    
+	#10
+    state_reg = 3'b010;
+    
+	#10
+	state_reg = 3'b001; 
     guard_key = 32'hDEADBEEF;
-    #10 
+	input_data = 8'hFE;
 
-    rst = 0;
-    guard_key = 32'h00000000;
-    rd_enable = 1;
-    #10 
+	#10
+	state_reg = 3'b010;
+
+	#10
+	state_reg = 3'b100;
+    
+	#10 
     $display("Hey it Worked");
 end
 endmodule
