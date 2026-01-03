@@ -6,13 +6,13 @@ work_dir: .
 design_root_dir: .
 simulations:
   - name: box_sim
-    options: +acc -top work.tb_box_top -waves box.vcd
+    options: +acc -top work.tb_box_top -waves waaves/box.vcd
   - name: prisoner_sim
-    options: +acc -top work.tb_prisoner_top -waves prisoner.vcd
+    options: +acc -top work.tb_prisoner_top -waves waves/prisoner.vcd
   - name: neotrng
     options: >-
-      +acc -top work.neoTRNG_tb -waves neotrng.vcd -run-until 100us +VERBOSE
-      +REPORT
+      +acc -top work.neoTRNG_tb -waves waves/neotrng.vcd -run-until 100us
+      +VERBOSE +REPORT
 source_files:
   - language: vhdl
     path: neoTRNG/sim/neoTRNG_tb.vhd
