@@ -9,14 +9,24 @@ simulations:
     options: +acc -top work.tb_box_top -waves box.vcd
   - name: prisoner_sim
     options: +acc -top work.tb_prisoner_top -waves prisoner.vcd
+  - name: neotrng
+    options: >-
+      +acc -top work.neoTRNG_tb -waves neotrng.vcd -run-until 100us +VERBOSE
+      +REPORT
 source_files:
+  - language: vhdl
+    path: neoTRNG/sim/neoTRNG_tb.vhd
+  - language: vhdl
+    path: neoTRNG/rtl/neoTRNG.vhd
   - language: verilog
-    path: box_tb.sv
+    path: sim/box_tb.sv
   - language: verilog
-    path: box.v
+    path: sim/multi_prisoner_tb.sv
   - language: verilog
-    path: prisoner.v
+    path: sim/prisoner_tb.sv
   - language: verilog
-    path: prisoner_tb.sv
+    path: rtl/box.v
+  - language: verilog
+    path: rtl/prisoner.v
 library_search_paths:
   - $STD_LIBS/ieee93
